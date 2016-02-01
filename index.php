@@ -1,47 +1,59 @@
 <?php
-define('IMAGEPATH', 'Images/');
+$imagesDir = 'Images/';
 
-foreach (glob(IMAGEPATH.'*') as $filename) {
-  $imag[] = basename($filename);
-}
+$images = glob($imagesDir . '*.{jpg,jpeg,png,gif,mp4,wav}', GLOB_BRACE);
 
+$test = glob($imagesDir . '*.{jpg,jpeg,png,gif,mp4,wav}', GLOB_BRACE);
 
+$randomPic = $images[array_rand($images)];
+
+$name = substr($randomPic, 7, -4);
+$name2 = str_replace("-"," ",$name);
 
 if(isset($_POST['upload'])) {
 
-  if($imag == '') {
+  if($images == '') {
     echo "<script>alert('Image not found');</script>";
     exit();
   }
     else {
-      if ($randomPic == 'Images/' . $randomPic . '.jpg') {
-        echo "<script>alert('Same pic alert');</script>";
+      if (strpos($randomPic, '.mp4') == true) {
+        echo "<div class='pic'>";
+        echo "<a>$name2</a><br>";
+        echo "<video autoplay muted loop>";
+        echo "<source src='$randomPic' type='video/mp4'>";
+        echo "</video>";
+        echo "</div>";
+      }
+      else if(strpos($randomPic, '.wav') == true) {
+        echo "<div class='pic'>";
+        echo "<a>$name2</a><br>";
+        echo "<audio controls autoplay loop>";
+        echo "<source src='$randomPic'>";
+        echo "</audio>";
+        echo "</div>";
       }
       else {
         echo "<div class='pic'>";
-        echo "<img src='Images/$randomPic.jpg'>";
+        echo "<a>$name2</a><br>";
+        echo "<img src='$randomPic'>";
         echo "</div>";
       }
     }
 }
-function moveBack() {
-    echo "<img src='Images/$prevPic'>";
-  }
-function moveForward() {
-    echo "<img src='Images/$nextPic'>";
-  }
-
 
 if (isset($_GET['moveback'])) {
-    moveBack();
+    $prevPic = prev($images);
+    echo "<div class='pic'>";
+    echo "<img src='$prevPic'>";
+    echo "</div>";
   }
 if (isset($_GET['moveforward'])) {
-    moveForward();
+    $nextPic = next($images);
+    echo "<div class='pic'>";
+    echo "<img src='$nextPic'>";
+    echo "</div>";
   }
-
-echo "<div class='pic'>";
-echo "<img src='Images/$imag[0]'>";
-echo "</div>";
 
 ?>
 <!DOCTYPE html>
@@ -55,11 +67,11 @@ echo "</div>";
 
   <form action="index.php" method="POST" enctype="multipart/form-data">
 
-    <a href='index.php?moveback=true'><</a>
+    <a href='index.php?moveback=true'>&larr;</a>
 
   <input type="submit" name="upload" value="Random">
 
-  <a href='index.php?moveforward=true'>></a>
+  <a href='index.php?moveforward=true'>&rarr;</a>
   </form>
 </div>
 
