@@ -1,0 +1,25 @@
+a {
+  font-size: 16px;
+}
+
+div.pic {
+  margin: auto;
+  text-align: center;
+}
+
+div.pic img {
+  border: 3px solid;
+}
+
+form {
+  margin: auto;
+  text-align: center;
+}
+
+div.forms {
+  border: 2px solid;
+  position: fixed;;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}

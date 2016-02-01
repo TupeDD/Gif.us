@@ -4,7 +4,8 @@ define('IMAGEPATH', 'Images/');
 foreach (glob(IMAGEPATH.'*') as $filename) {
   $imag[] = basename($filename);
 }
-$randomPic = rand($imag[0], $imag[8]);
+
+
 
 if(isset($_POST['upload'])) {
 
@@ -13,7 +14,7 @@ if(isset($_POST['upload'])) {
     exit();
   }
     else {
-      if ($randomPic == 'Images/$randomPic') {
+      if ($randomPic == 'Images/' . $randomPic . '.jpg') {
         echo "<script>alert('Same pic alert');</script>";
       }
       else {
@@ -24,10 +25,10 @@ if(isset($_POST['upload'])) {
     }
 }
 function moveBack() {
-    echo 'Pic Move Back';
+    echo "<img src='Images/$prevPic'>";
   }
 function moveForward() {
-    echo 'Pic Move Forward';
+    echo "<img src='Images/$nextPic'>";
   }
 
 
@@ -38,42 +39,27 @@ if (isset($_GET['moveforward'])) {
     moveForward();
   }
 
+echo "<div class='pic'>";
+echo "<img src='Images/$imag[0]'>";
+echo "</div>";
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-  div.pic {
-    margin: auto;
-    text-align: center;
-  }
-  div.pic img {
-    border: 3px solid;
-  }
-  form {
-    margin: auto;
-    text-align: center;
-  }
-  div.forms {
-    border: 2px solid;
-    position: fixed;;
-    bottom: 0;
-    right: 0;
-    left: 0;
-  }
+  <link rel="stylesheet" type="text/css"  href="style/style.css">
   </style>
 </head>
 <body>
+  <div class="forms">
 
-<div class="forms">
+  <form action="index.php" method="POST" enctype="multipart/form-data">
 
-  <form action="php.php" method="POST" enctype="multipart/form-data">
-
-    <a href='php.php?moveback=true'><</a>
+    <a href='index.php?moveback=true'><</a>
 
   <input type="submit" name="upload" value="Random">
 
-  <a href='php.php?moveforward=true'>></a>
+  <a href='index.php?moveforward=true'>></a>
   </form>
 </div>
 
